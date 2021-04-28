@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Models>
+	<Model name="SEIRD" type="coupled" description="A coupled system that joins the Vanier and Rockcliffe neighborhoods">
+		<Inputs>
+		</Inputs>
+		<Outputs>
+		</Outputs>
+		<Files>
+			<File name="main.cpp" type="CPP" location="./top_model/"/>
+			<File name="SEIRD.exe" type="exe" location="./bin/"/>
+		</Files>
+	</Model>
+	<Model name="ROCKCLIFFE" type="coupled" description="A coupled system that creates the SEIRD model for Rockcliffe">
+		<Inputs>
+			<Port name="in_infective" type="float" description=""/>
+		</Inputs>
+		<Outputs>
+			<Port name="out_infective" type="float" description=""/>
+		</Outputs>
+		<Files>
+			<File name="main.cpp" type="CPP" location="./top_model/"/>
+		</Files>
+	</Model>
+	<Model name="VANIER" type="coupled" description="A coupled system that creates the SEIRD model for Vanier">
+		<Inputs>
+			<Port name="in_infective" type="float" description=""/>
+		</Inputs>
+		<Outputs>
+			<Port name="out_infective" type="float" description=""/>
+		</Outputs>
+		<Files>
+			<File name="main.cpp" type="CPP" location="./top_model/"/>
+		</Files>
+	</Model>
+	<Model name="Susceptible" type="atomic" description="A atomic model to calculate the number of susceptible people">
+		<Inputs>
+			<Port name="infective" type="float" description="An input port that accepted the number of susceptible people coming from infective"/>
+		</Inputs>
+		<Outputs>
+			<Port name="new_exposed" type="float" description="The number of newly exposed individuals"/>
+			<Port name="report" type="float" description="The report variable tells the system what is being reported and what isnt"/>
+		</Outputs>
+		<Files>
+			<File name="susceptible.hpp" type="hpp" location="./atomics/"/>
+		</Files>
+	</Model>
+	<Model name="exposed" type="atmoic" description="A atomic model to calculate the number of exposed people">
+		<Inputs>
+			<Port name="new_exposed" type="float" description="An input port that accepted the number of newly exposed people coming from susceptible"/>
+		</Inputs>
+		<Outputs>
+			<Port name="total_exposed" type="float" description="The output for the new number of total exposed individuals"/>
+			<Port name="new_infective" type="float" description="The output for the number of individuals who are moving from exposed to infective"/>
+			<Port name="report" type="float" description="The report variable tells the system what is being reported and what isnt"/>
+		</Outputs>
+		<Files>
+			<File name="exposed.hpp" type="hpp" location="./atomics/"/>
+		</Files>
+	</Model>
+	<Model name="deceased" type="atomic" description="A Accumulator model counting the number of deceased">
+		<Inputs>
+			<Port name="in" type="float" description="A input port that collects a number to be added to either the deceased or the recovered"/>
+		</Inputs>
+		<Outputs>
+			<Port name="report" type="float" description="The report variable tells the system what is being reported and what isnt"/>
+		</Outputs>
+		<Files>
+			<File name="accumulator.hpp" type="hpp" location="./atomics/"/>
+		</Files>
+	</Model>
+	<Model name="recovered" type="atomic" description="A Accumulator model counting the number of recovered">
+		<Inputs>
+			<Port name="in" type="float" description="A input port that collects a number to be added to either the deceased or the recovered"/>
+		</Inputs>
+		<Outputs>
+			<Port name="report" type="float" description="The report variable tells the system what is being reported and what isnt"/>
+		</Outputs>
+		<Files>
+			<File name="accumulator.hpp" type="hpp" location="./atomics/"/>
+		</Files>
+	</Model>
+	<Model name="infective" type="atomic" description="A model used to calculate the number of infective individuals as well as new deceased, recovered.">
+		<Inputs>
+			<Port name="in" type="float" description="A input port that collects the new infective individuals"/>
+			<Port name="in_infective" type="float" description="A input port that collects the number of new infective individuals coming from the neighboring neighborhood"/>
+		</Inputs>
+		<Outputs>
+			<Port name="report" type="float" description="The report variable tells the system what is being reported and what isnt"/>
+			<Port name="total_infective" type="float" description="The output port for the new total infective individuals"/>
+			<Port name="diseased" type="float" description="The output port for the newly diseased individuals"/>
+			<Port name="recovered" type="float" description="The output port for the newly recovered individuals"/>
+			<Port name="out_infective" type="float" description="The output port for infective individuals moving to the other neighborhood"/>
+		</Outputs>
+		<Files>
+			<File name="infective.hpp" type="hpp" location="./atomics/"/>
+		</Files>
+	</Model>
+</Models>

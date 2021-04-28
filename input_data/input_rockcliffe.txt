@@ -1,0 +1,7 @@
+mortality = 5
+infectivity period = 14
+dt = 0.1
+incubation period = 5
+total population = 1932
+initial infective = 10
+transmission rate = 2
